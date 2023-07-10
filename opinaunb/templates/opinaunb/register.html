@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <div class="container">
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Registrar</div>
+                    <div class="panel-body">
+                        {% for field in forms %}
+                            <div class="form-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            
+                            {{ field }}
+
+                            {% if field.errors %}
+                                <ul class="errorlist">
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                                
+                            </div>
+                        {% endfor %}
+  
+                        <div class="col-md-6 col-md-offset-4">
+                            <input name="login" type="submit" value="Registrar" class="btn btn-success" /> &nbsp;
+                            <a href="/polls/login">ou Entrar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
