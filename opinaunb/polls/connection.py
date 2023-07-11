@@ -17,7 +17,6 @@ class Connection:
         cur = self.conn.cursor()
         cur.execute(query)
         aux = cur.fetchone()
-        print(aux)
         if aux:
             val = aux[0]
             cur.close()

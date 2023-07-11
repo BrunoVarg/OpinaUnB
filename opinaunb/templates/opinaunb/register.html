@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="container">
-        <form action="{% url 'register' %}" method="post">
+        <form action="{% url 'register' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">

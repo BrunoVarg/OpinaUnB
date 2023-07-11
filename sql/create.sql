@@ -4,7 +4,8 @@ CREATE TABLE Estudantes(
     nome varchar(200),
     email varchar(200),
     curso varchar(200),
-    senha varchar(200)
+    senha varchar(200),
+    imagem bytea
 );
 
 CREATE TABLE Departamentos(

@@ -10,14 +10,15 @@ class FormControlTextInput(forms.TextInput):
         super().__init__(*args, **kwargs)
 
 class LoginForm(forms.Form):
-    matricula = forms.IntegerField(label="Matrícula", required=True, widget=FormControlTextInput)
-    senha = forms.CharField(label="Senha", max_length=200, widget=FormControlTextInput(is_password=True))
+    matricula = forms.IntegerField(label="Matrícula", widget=FormControlTextInput, required=True)
+    senha = forms.CharField(label="Senha", max_length=200, widget=FormControlTextInput(is_password=True), required=True)
 
 class RegisterForm(forms.Form):
-    matricula = forms.IntegerField(label="Matrícula", required=True, widget=FormControlTextInput)
-    nome = forms.CharField(label="Nome", max_length=200, widget=FormControlTextInput)
-    email = forms.EmailField(label="E-mal", max_length=200, widget=FormControlTextInput)
-    curso = forms.CharField(label = "Curso", max_length=200, widget=FormControlTextInput)
-    senha = forms.CharField(label='Senha', widget=FormControlTextInput(is_password=True))
-    confirmacao = forms.CharField(label='Confirmação de Senha', widget=FormControlTextInput(is_password=True))
+    matricula = forms.IntegerField(label="Matrícula", widget=FormControlTextInput, required=True)
+    nome = forms.CharField(label="Nome", max_length=200, widget=FormControlTextInput, required=True)
+    email = forms.EmailField(label="E-mail", max_length=200, widget=FormControlTextInput, required=True)
+    curso = forms.CharField(label = "Curso", max_length=200, widget=FormControlTextInput, required=True)
+    senha = forms.CharField(label='Senha', widget=FormControlTextInput(is_password=True), required=True)
+    confirmacao = forms.CharField(label='Confirmação de Senha', widget=FormControlTextInput(is_password=True), required=True)
+    imagem = forms.ImageField(label="Imagem", required=False)
 

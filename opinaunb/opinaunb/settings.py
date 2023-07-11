@@ -40,6 +40,7 @@ MESSAGE_TAGS = {
 # Application definition
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_COOKIE_AGE = 30 * 24 * 60 * 60  # 1 mês em segundos
 
 CACHES = {
     'default': {
@@ -56,6 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'fontawesomefree',
 ]
 
 MIDDLEWARE = [
@@ -122,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'UTC'
 

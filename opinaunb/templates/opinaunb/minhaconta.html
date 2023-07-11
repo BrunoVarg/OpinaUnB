@@ -1,14 +1,51 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
+
+{% block style %}
+        <link rel="stylesheet" type="text/css" href="{% static 'fontawesome/css/all.min.css' %}" />
+{% endblock %}
 
 {% block content %}
+    
     <div class="container">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
+                <div class="panel-heading">Minha Conta</div>
                 <div class="panel-body">
-                    {% for name, value in atributos.items %}
-                        {{ name }}
-                    {% endfor %}
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th scope="row"></th>
+                                <td>
+                                    <div style="float: right;">
+                                        <a href="/polls/editar/{{user.matricula}}"><button type="button" class="btn btn-info"><i class="fas fa-edit"></i></button></a>
+                                        <a href="/polls/delete/{{user.matricula}}"><button type="button" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button></a>
+                                    </div>
+                                </td>
+                            </tr>
+                          <tr>
+                            <th scope="row">Matrícula</th>
+                            <td>{{user.matricula}}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Nome</th>
+                            <td>{{user.nome}}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">E-mail</th>
+                            <td>{{user.email}}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Curso</th>
+                            <td>{{user.curso}}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Foto</th>
+                            <td><img src="data:image/jpeg;base64,{{user.imagem}}" alt="Imagem" width="200" height="200"/></td>
+                          </tr>
+                        </tbody>
+                      </table>
                 </div>
             </div>
         </div>
