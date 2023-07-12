@@ -7,7 +7,8 @@
     <div class="">
         <div class = "container text-center mx-auto">
             <h2>{{nome_prof}}</h1>
-            <h5>{{dep}}</h2>
+            <h5>{{dep}}</h5>
+            <h4><i class="fa fa-star"></i>  {{nota|floatformat:2}}</h4>
         </div>
 
         <section class="content-item" id="comments">
@@ -64,8 +65,8 @@
                                     <li><i class="fa fa-calendar"></i>{{u.4}}</li>
                                     <li><i class="fa fa-star"></i>{{u.5}}</li>
                                     {% if u.6 == True %}
-                                        <a href="{% url 'avaliacao_professor_edit' u.0 %}"><li><i class="fas fa-edit"></i>Editar</li></a>
-                                        <a href="{% url 'avaliacao_professor_delete' u.0 pk%}"><li><i class="fas fa-trash"></i>Excluir</li></a>
+                                        <li><a href="{% url 'avaliacao_professor_edit' u.0 %}"><i class="fas fa-edit"></i>Editar</a></li>
+                                        <li><a href="{% url 'avaliacao_professor_delete' u.0 pk%}"><i class="fas fa-trash"></i>Excluir</a></li>
                                     {% endif %}
                                 </ul>
                             </div>

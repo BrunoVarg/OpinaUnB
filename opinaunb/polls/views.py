@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 from .forms import LoginForm, RegisterForm, FilterProfessor
 from .cruds.usuario import check_login, get_matricula, get_image, edit_user, delete_user, User
-from .cruds.avaliacao_professor import get_all_avaliacoes_professores, create_avaliacao_professor, get_avaliacoes_professores, update_avaliacao, delete_avaliacao
+from .cruds.avaliacao_professor import get_all_avaliacoes_professores, create_avaliacao_professor, get_avaliacoes_professores, update_avaliacao, delete_avaliacao, get_nota
 from .cruds.filter import get_disciplinas_departamento, get_all_disciplinas, get_all_professores, get_name_by_cod_dep, get_prof_filtered, get_prof_by_codigo, get_one_prof_by_codigo
 from .connection import Connection
 from django.contrib import messages
@@ -143,14 +143,14 @@ def professor(request):
         # all professores
         profs = get_all_professores(con)
 
-        profs = [(x[0], x[1], get_name_by_cod_dep(x[2])[0]) for x in get_all_professores(con)]
+        profs = [(x[0], x[1], get_name_by_cod_dep(x[2])[0], get_nota(con, x[0])) for x in get_all_professores(con)]
         paginator = Paginator(profs, 15)
         resultados = paginator.get_page(page)
     else:
         form = FilterProfessor(request.POST)
         profs = get_prof_filtered(request.POST["departamento"], request.POST["disciplina"])
         profs = [get_prof_by_codigo(x[0]) for x in profs]
-        profs = [(x[0][0], x[0][1], get_name_by_cod_dep(x[0][2])[0]) for x in profs]
+        profs = [(x[0][0], x[0][1], get_name_by_cod_dep(x[0][2])[0], get_nota(con, x[0])) for x in profs]
         profs = list(set(profs))
         paginator = Paginator(profs, 15)
         resultados = paginator.get_page(page)
@@ -194,6 +194,7 @@ def professor_read(request, pk):
 
     context["nome_prof"] = prof[1]
     context["dep"] = get_name_by_cod_dep(prof[2])[0]
+    context["nota"] = get_nota(con, prof[0])
     context["users"] = lista
     context["my_image"] = get_image(con, my_id)
     context["pk"] = pk

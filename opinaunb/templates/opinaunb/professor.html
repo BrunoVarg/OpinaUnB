@@ -46,7 +46,7 @@
               <tr>
                 <td>{{ professor.1 }}</td>
                 <td>{{ professor.2 }}</td>
-                <td>{{ 0 }}</td>
+                <td>{{ professor.3|floatformat:2 }}</td>
                 <td>
                     <a href="{% url 'professor_read' professor.0 %}"><button type="button" class="btn btn-info">Ver Mais</button></a>
                 </td>

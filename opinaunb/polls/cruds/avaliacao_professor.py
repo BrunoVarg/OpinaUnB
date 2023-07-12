@@ -21,3 +21,6 @@ def delete_avaliacao(conn: Connection, id):
 
 def update_avaliacao(conn: Connection, id, comentario, matricula, professor, nota):
     conn.update(f"UPDATE Avaliacoes set comentario='{comentario}', is_turma={False}, fk_matricula={matricula}, fk_professor={professor}, nota={nota}, data='{date.today()}' WHERE id={id}")
+
+def get_nota(conn, id):
+    return conn.query(f"SELECT AVG(nota) FROM Notas_professor WHERE fk_professor={id}")

@@ -59,6 +59,9 @@ CREATE TABLE Denuncias(
     comentario varchar(500)
 );
 
+CREATE VIEW Notas_professor AS 
+    SELECT fk_professor, nota FROM Avaliacoes WHERE is_turma=false;
+
 GRANT ALL ON TABLE estudantes TO usuario;
 GRANT ALL ON TABLE departamentos TO usuario;
 GRANT ALL ON TABLE professores TO usuario;
