@@ -150,7 +150,7 @@ def professor(request):
         form = FilterProfessor(request.POST)
         profs = get_prof_filtered(request.POST["departamento"], request.POST["disciplina"])
         profs = [get_prof_by_codigo(x[0]) for x in profs]
-        profs = [(x[0][0], x[0][1], get_name_by_cod_dep(x[0][2])[0], get_nota(con, x[0])) for x in profs]
+        profs = [(x[0][0], x[0][1], get_name_by_cod_dep(x[0][2])[0], get_nota(con, x[0][0])) for x in profs]
         profs = list(set(profs))
         paginator = Paginator(profs, 15)
         resultados = paginator.get_page(page)
@@ -191,6 +191,7 @@ def professor_read(request, pk):
         messages.success(request, "Avaliação criada com sucesso.")
 
     prof = get_one_prof_by_codigo(pk)
+    print(prof)
 
     context["nome_prof"] = prof[1]
     context["dep"] = get_name_by_cod_dep(prof[2])[0]

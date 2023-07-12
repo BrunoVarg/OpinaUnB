@@ -62,6 +62,25 @@ CREATE TABLE Denuncias(
 CREATE VIEW Notas_professor AS 
     SELECT fk_professor, nota FROM Avaliacoes WHERE is_turma=false;
 
+CREATE PROCEDURE inserir_avaliacoes(
+    next_val int,
+    comentario varchar, 
+    matricula int, 
+    turma int,
+    professor int, 
+    nota int,
+    data date
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  INSERT INTO Avaliacoes (id, comentario, is_turma, fk_turma, fk_matricula, nota, data) 
+  VALUES (next_val, comentario, true, turma, matricula, nota, data);
+  INSERT INTO Avaliacoes (id, comentario, is_turma, fk_matricula, fk_professor, nota, data) 
+  VALUES (next_val+1, comentario, false, matricula, professor, nota, data);
+END;
+$$;
+
 GRANT ALL ON TABLE estudantes TO usuario;
 GRANT ALL ON TABLE departamentos TO usuario;
 GRANT ALL ON TABLE professores TO usuario;

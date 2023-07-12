@@ -1,6 +1,8 @@
 from ..connection import Connection
 from datetime import date
 
+from .all import get_last_value
+
 def get_all_avaliacoes_professores(conn: Connection, codigo):
     return conn.get_all(f"SELECT * FROM Avaliacoes WHERE is_turma=false AND fk_professor={codigo};")
 
@@ -24,3 +26,9 @@ def update_avaliacao(conn: Connection, id, comentario, matricula, professor, not
 
 def get_nota(conn, id):
     return conn.query(f"SELECT AVG(nota) FROM Notas_professor WHERE fk_professor={id}")
+
+"""
+    Procedure que insere 2 tipos de valores diferentes nas tabelas, is_truma = true e is_truma = false
+"""
+def call_procedure_avaliacoes(conn, comentario, matricula, turma, professor, nota):
+    conn.update(f"CALL inserir_avaliacoes({get_last_value('avaliacoes')}, '{comentario}', {matricula}, {turma}, {professor}, {nota}, '{date.today()}')")
