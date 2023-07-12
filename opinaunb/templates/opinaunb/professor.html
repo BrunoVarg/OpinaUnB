@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+    <div class="">
+        <form action="{% url 'professor' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-md">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {% for field in forms_filter %}
+                            <div class="form-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <ul class="errorlist">
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                                
+                            </div>
+                        {% endfor %}
+
+                        <div class="col-md-6 col-md-offset-4">
+                            <input name="filtrar" type="submit" value="Filtrar" class="btn btn-info" /> &nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Professor</th>
+                <th>Departamento</th>
+                <th>Média</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for professor in object %}
+              <tr>
+                <td>{{ professor.1 }}</td>
+                <td>{{ professor.2 }}</td>
+                <td>{{ 0 }}</td>
+                <td>
+                    <a href="{% url 'professor_read' professor.0 %}"><button type="button" class="btn btn-info">Ver Mais</button></a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        <span class="step-links">
+          {% if object.has_previous %}
+            <a href="?page=1">&laquo; Primeira</a>
+            <a href="?page={{ object.previous_page_number }}">Anterior</a>
+          {% endif %}
+      
+          <span class="current-page">{{ object.number }}</span>
+      
+          {% if object.has_next %}
+            <a href="?page={{ object.next_page_number }}">Próxima</a>
+            <a href="?page={{ object.paginator.num_pages }}">Última &raquo;</a>
+          {% endif %}
+        </span>
+      </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+      $('#id_departamento').change(function() {
+        var id_departamento = $(this).val();
+        obterOpcoesFiltradas(id_departamento);
+      });
+  
+      function obterOpcoesFiltradas(id_departamento) {
+        $.ajax({
+          url: "{% url 'filtro_professor' %}",
+          data: {
+            id_departamento: id_departamento
+          },
+          success: function(response) {
+            $('#id_disciplina').html(response);
+          }
+        });
+      }
+    });
+    </script>
+{% endblock %}

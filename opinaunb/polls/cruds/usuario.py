@@ -7,7 +7,7 @@ diretorio_atual = os.path.dirname(os.path.abspath(__file__))
 # Navegar duas pastas anteriores
 diretorio_pai = os.path.dirname(diretorio_atual)
 diretorio_avo = os.path.dirname(diretorio_pai)
-caminho_profile = os.path.join(diretorio_avo, 'static', 'image', 'profile.png')
+caminho_profile = os.path.join(diretorio_avo, 'static', 'images', 'profile.png')
 
 with open(caminho_profile, 'rb') as f:
     imagem_profile = f.read()

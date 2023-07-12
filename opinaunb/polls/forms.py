@@ -1,4 +1,7 @@
 from django import forms
+from .cruds.filter import get_all_departamentos, get_all_disciplinas, get_all_professores
+from .connection import Connection
+con = Connection()
 
 class FormControlTextInput(forms.TextInput):
     def __init__(self, is_password=False, *args, **kwargs):
@@ -21,4 +24,15 @@ class RegisterForm(forms.Form):
     senha = forms.CharField(label='Senha', widget=FormControlTextInput(is_password=True), required=True)
     confirmacao = forms.CharField(label='Confirmação de Senha', widget=FormControlTextInput(is_password=True), required=True)
     imagem = forms.ImageField(label="Imagem", required=False)
+
+
+class FilterProfessor(forms.Form):
+
+    options1 = [(x, y) for x, y in get_all_departamentos(con)]
+    options1.insert(0, (None, "--------------"))
+    departamento = forms.ChoiceField(label="Departamento", choices=options1)
+
+    options1 = [(x[0], x[1]) for x in get_all_disciplinas(con)]
+    options1.insert(0, (None, "--------------"))
+    disciplina = forms.ChoiceField(label="Disciplina", choices=options1)
 

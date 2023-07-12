@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+    <div class="">
+        <div class = "container text-center mx-auto">
+            <h2>{{nome_prof}}</h1>
+            <h5>{{dep}}</h2>
+        </div>
+
+        <section class="content-item" id="comments">
+            <div class="container">   
+                <div class="row">
+                    <div class="col-sm-10">   
+                        <form action="{% url 'professor_read' pk %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <h3 class="pull-left">Nova Avaliação</h3>
+                            
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-sm-1 col-lg-2 hidden-xs">
+                                        <img class="img-responsive" src="data:image/jpeg;base64,{{my_image}}" alt="">
+                                    </div>
+                                    <div class="form-group col-xs-12 col-sm-6 col-lg-6">
+                                        <textarea class="form-control" id="message" name="message" placeholder="Sua avaliação" required=""></textarea>
+                                    </div>
+                                    
+                                    <div class="col-md-4 ">
+                                        <div class="box box-orange box-example-1to10">
+                                            <div class="box-header">1/10 Avaliação</div>
+                                            <div class="box-body">
+                                                <select id="example-1to10" name="rating" autocomplete="off">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7" selected="selected">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>  	
+                            </fieldset>
+                            <button type="submit" onclick="location.reload();" class="btn btn-info pull-right">Enviar</button>
+                        </form>
+                        
+                        <h3>{{users|length}} Comentário(s)</h3>
+                        
+                        {% for u in users %}
+                        <!-- COMENTARIO -->
+                        <div class="media">
+                            <a class="pull-left" href="#"><img class="media-object" src="data:image/jpeg;base64,{{u.1}}" alt=""></a>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{u.2}}</h4>
+                                <p>{{u.3}}</p>
+                                <ul class="list-unstyled list-inline media-detail pull-left">
+                                    <li><i class="fa fa-calendar"></i>{{u.4}}</li>
+                                    <li><i class="fa fa-star"></i>{{u.5}}</li>
+                                    {% if u.6 == True %}
+                                        <a href="{% url 'avaliacao_professor_edit' u.0 %}"><li><i class="fas fa-edit"></i>Editar</li></a>
+                                        <a href="{% url 'avaliacao_professor_delete' u.0 pk%}"><li><i class="fas fa-trash"></i>Excluir</li></a>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <!-- COMENTARIO -->
+                    
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="pagination">
+        <span class="step-links">
+          {% if object.has_previous %}
+            <a href="?page=1">&laquo; Primeira</a>
+            <a href="?page={{ object.previous_page_number }}">Anterior</a>
+          {% endif %}
+      
+          <span class="current-page">{{ object.number }}</span>
+      
+          {% if object.has_next %}
+            <a href="?page={{ object.next_page_number }}">Próxima</a>
+            <a href="?page={{ object.paginator.num_pages }}">Última &raquo;</a>
+          {% endif %}
+        </span>
+    </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(function() {
+        function ratingEnable() {
+            $('#example-1to10').barrating('show', {
+                theme: 'bars-1to10'
+            });
+        }
+        ratingEnable();
+    });
+</script>
+{% endblock %}

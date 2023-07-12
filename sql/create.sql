@@ -49,7 +49,7 @@ CREATE TABLE Avaliacoes(
     is_turma boolean,
     fk_matricula int,
     fk_turma int,
-    fk_professor varchar(200),
+    fk_professor int,
     nota int
 );
 
