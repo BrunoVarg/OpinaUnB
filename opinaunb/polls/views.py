@@ -77,12 +77,17 @@ def register(request):
             curso = request.POST["curso"]
             senha = request.POST["senha"]
             confirmacao = request.POST["confirmacao"]
-            imagem = request.FILES["imagem"].read()
+            
 
             if confirmacao != senha:
                 messages.error(request, "Confirmação de Senha incorreta")
             else:
-                create_user(con, matricula, False, nome, email, curso, senha, imagem)
+
+                if request.FILES.get("imagem"):
+                    imagem = request.FILES["imagem"].read()
+                    create_user(con, matricula, False, nome, email, curso, senha, imagem)
+                else:
+                    create_user(con, matricula, False, nome, email, curso, senha)
                 messages.success(request, "Conta criada com sucesso.")
                 return redirect('index')
 
