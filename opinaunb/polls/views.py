@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 from .forms import LoginForm, RegisterForm, FilterAvaliacao, FilterTurma
 from .cruds.denuncias import get_all_denuncias, get_denuncia_avaliacao, create_denuncia, call_denuncia
-from .cruds.usuario import check_login, get_matricula, get_image, edit_user, delete_user, User, check_admin
+from .cruds.usuario import check_login, get_matricula, get_image, edit_user, delete_user1, User, check_admin
 from .cruds.avaliacao_turmas import get_all_turmas, get_professor_by_disciplina, get_name_by_cod_disciplina, get_all_turmas_prof_disc, get_all_avaliacoes, get_num_turma, get_id_turma, create_avaliacao_turmas, get_avaliacoes_turmas, update_avaliacao_turma, delete_avaliacao_turma, get_nota_turma
 from .cruds.avaliacao_professor import get_all_avaliacoes_professores, create_avaliacao_professor, get_avaliacoes_professores, update_avaliacao, delete_avaliacao, get_nota
 from .cruds.filter import get_disciplinas_departamento, get_all_disciplinas, get_all_professores, get_name_by_cod_dep, get_prof_filtered, get_prof_by_codigo, get_one_prof_by_codigo, get_turmas_filtered
@@ -135,10 +135,10 @@ def delete(request, pk):
     if not request.session.get("user_id"):
         return redirect('index')
     
-    delete_user(con, pk)
+    delete_user1(con, pk)
     messages.success(request, "Conta deletada com sucesso.")
-    if request.session.get("pk"):
-        del request.session["pk"]
+    if request.session.get("user_id"):
+        del request.session["user_id"]
     return redirect('index')
 
 def professor(request):

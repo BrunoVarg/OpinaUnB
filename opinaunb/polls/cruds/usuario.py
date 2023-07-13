@@ -70,7 +70,7 @@ def edit_user(conn, matricula, is_adm, nome, email, curso, senha, imagem):
     if imagem:
         conn.update(f"UPDATE Estudantes SET imagem={psycopg2.Binary(imagem)} WHERE matricula = {matricula}")
 
-def delete_user(conn, matricula):
+def delete_user1(conn, matricula):
     if get_matricula(conn, matricula):
         conn.update(f"DELETE FROM Estudantes WHERE matricula = {matricula}")
 
