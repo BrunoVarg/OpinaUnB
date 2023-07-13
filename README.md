@@ -20,6 +20,8 @@ pip install -r requirements.txt
 
 - Depois de instalado o [PostgreSQL](https://www.postgresql.org/download/):
 
+- Substitua nome_usuario e nome_banco_de_dados pelo que será usado.
+
 ```bash
 psql -U nome_usuario -d nome_banco_de_dados
 ```
