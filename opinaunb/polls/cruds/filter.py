@@ -22,9 +22,19 @@ def get_prof_by_codigo(codigo, conn = con):
 def get_one_prof_by_codigo(codigo, conn = con):
     return conn.get_one(f"SELECT * FROM Professores where id={codigo}")
 
-def get_prof_filtered(codigo, disciplina, conn = con):
-    if codigo != 'None' and disciplina != 'None':
-        return conn.get_all(f"SELECT fk_professor FROM Turmas where fk_cod_disciplina='{disciplina}' AND fk_cod_dep={int(codigo)}")
+def get_prof_filtered(codigo, disciplina, professor, conn = con):
+    if codigo != 'None' and disciplina != 'None' and professor != 'None':
+        return conn.get_all(f"SELECT fk_professor FROM Turmas where fk_cod_disciplina='{disciplina}' AND fk_cod_dep={int(codigo)} AND fk_professor={professor}")
+    elif codigo != 'None' and disciplina != 'None':
+        return conn.get_all(f"SELECT fk_professor FROM Turmas where fk_cod_dep={int(codigo)} AND fk_cod_disciplina='{disciplina}'")
     elif codigo != 'None':
         return conn.get_all(f"SELECT fk_professor FROM Turmas where fk_cod_dep={int(codigo)}")
+    
+def get_turmas_filtered(dep, disciplina, professor, conn = con):
+    if dep != 'None' and disciplina != 'None' and professor != 'None':
+        return conn.get_all(f"SELECT * FROM Turmas where fk_cod_disciplina='{disciplina}' AND fk_cod_dep={int(dep)} AND fk_professor={professor}")
+    elif dep != 'None' and disciplina != 'None':
+        return conn.get_all(f"SELECT * FROM Turmas where fk_cod_dep={int(dep)} AND fk_cod_disciplina='{disciplina}'")
+    elif dep != 'None':
+        return conn.get_all(f"SELECT * FROM Turmas where fk_cod_dep={int(dep)}")
 

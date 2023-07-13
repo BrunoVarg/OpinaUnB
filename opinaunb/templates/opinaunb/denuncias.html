@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+    <div class="">
+        <div class = "container text-center mx-auto">
+            <h2> Lista de Denúncias </h2>
+        </div>
+
+        <section class="content-item" id="comments">
+            <div class="container">   
+                <div class="row">
+                    <div class="col-sm-10">   
+                        {% for u in lista %}
+                        <div class="media">
+                            <a class="pull-left" href="#"><img class="media-object" src="data:image/jpeg;base64,{{u.4}}" alt=""></a>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{u.3}}</h4>
+                                <p>{{u.2}}</p>
+                                <ul class="list-unstyled list-inline media-detail pull-left">
+                                    <li><i class="fa fa-star"></i>{{u.5}}</li>
+                                    <li><a href="{% url 'pass_denuncia' u.0 u.1 u.6 %}"><i class="fas fa-check"></i>Inofensivo</a></li>
+                                    <li><a href="{% url 'delete_denuncia' u.0 u.1 u.6 %}"><i class="fas fa-circle-exclamation"></i>Ofensivo</a></li>
+                                    <li><a href="{% url 'delete_user' u.0 u.1 u.6 %}"><i class="fas fa-skull-crossbones"></i>Deletar Usuário</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

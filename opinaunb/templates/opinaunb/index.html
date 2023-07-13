@@ -10,8 +10,8 @@
                     <div class="col">
                         <div class="card">
                             <a href="/polls/professor">
-                                <img src="{% static '/images/professora.png' %}" class="card-img-top"
-                                alt="professor" weight="256", height="256"/>
+                                <img src="{% static '/images/professor.png' %}" class="card-img-top"
+                                alt="professor"/>
                                 <div class="card-body">
                                 <h2 class="card-title">Professores</h2>
                                 <p class="card-text">
@@ -24,9 +24,9 @@
                     </div>
                     <div class="col">
                         <div class="card">
-                            <a href="/polls/login">
-                                <img src="{% static '/images/professora.png' %}" class="card-img-top"
-                                alt="professor" weight="256", height="256"/>
+                            <a href="/polls/turmas">
+                                <img src="{% static '/images/turma.png' %}" class="card-img-top"
+                                alt="turma"/>
                                 <div class="card-body">
                                 <h2 class="card-title">Turma/Disciplina</h2>
                                 <p class="card-text">
@@ -37,11 +37,12 @@
                             </a>
                         </div>
                     </div>
+                    {% if request.session.admin %}
                     <div class="col">
                         <div class="card">
-                            <a href="/polls/login">
-                                <img src="{% static '/images/professora.png' %}" class="card-img-top"
-                                alt="professor" weight="256", height="256"/>
+                            <a href="/polls/list_denuncias">
+                                <img src="{% static '/images/denuncia.png' %}" class="card-img-top"
+                                alt="denuncia"/>
                                 <div class="card-body">
                                 <h2 class="card-title">Denúncias</h2>
                                 <p class="card-text">
@@ -52,6 +53,7 @@
                             </a>
                         </div>
                     </div>
+                    {% endif %}
             </div>
         </div>
     </div>

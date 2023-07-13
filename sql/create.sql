@@ -62,6 +62,35 @@ CREATE TABLE Denuncias(
 CREATE VIEW Notas_professor AS 
     SELECT fk_professor, nota FROM Avaliacoes WHERE is_turma=false;
 
+CREATE VIEW Notas_turmas AS 
+    SELECT fk_turma, nota FROM Avaliacoes WHERE is_turma=true;
+
+CREATE PROCEDURE AcaoDenuncia(
+    option int,
+	id_denuncia int,
+    id_avaliacao int,
+    matricula_in int
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF (option = 1) THEN
+        -- Ignora a denuncia
+        DELETE FROM Denuncias WHERE id = id_denuncia;
+    ELSIF (option = 2) THEN
+        -- Aceita a Denuncia
+        DELETE FROM Denuncias WHERE id = id_denuncia;
+        DELETE FROM Avaliacoes WHERE id = id_avaliacao;
+    ELSIF (option = 3) THEN
+        -- Deleta usuario
+        DELETE FROM Denuncias WHERE id = id_denuncia;
+        DELETE FROM Avaliacoes WHERE id = id_avaliacao;
+        DELETE FROM Estudantes WHERE matricula = matricula_in;
+    END IF;
+END
+$$;
+
+
 CREATE PROCEDURE inserir_avaliacoes(
     next_val int,
     comentario varchar, 

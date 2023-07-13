@@ -38,6 +38,9 @@ def get_image(conn, matricula):
 def check_login(conn, matricula, senha):
     return bool(conn.query(f"SELECT EXISTS(SELECT * FROM Estudantes WHERE matricula={matricula} AND senha='{senha}')"))
 
+def check_admin(conn, matricula):
+    return bool(conn.query(f"SELECT EXISTS(SELECT * FROM Estudantes WHERE matricula={matricula} AND is_adm=true)"))
+
 def create_user(conn, matricula, is_adm, nome, email, curso, senha, imagem=imagem_profile):
     if(get_matricula(conn, matricula)):
         return "Matricula já cadastrada."

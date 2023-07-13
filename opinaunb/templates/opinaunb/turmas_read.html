@@ -6,7 +6,8 @@
 
     <div class="">
         <div class = "container text-center mx-auto">
-            <h2>{{nome_prof}}</h1>
+            <h1>{{disc}}</h1>
+            <h2>{{nome_prof}}</h2>
             <h5>{{dep}}</h5>
             <h4><i class="fa fa-star"></i>  {{nota|floatformat:2}}</h4>
         </div>
@@ -14,8 +15,8 @@
         <section class="content-item" id="comments">
             <div class="container">   
                 <div class="row">
-                    <div class="col-sm-10">   
-                        <form action="{% url 'professor_read' pk %}" method="post" enctype="multipart/form-data">
+                    <div class="col-sm-11">   
+                        <form action="{% url 'turma_read' pk pk1 %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <h3 class="pull-left">Nova Avaliação</h3>
                             
@@ -24,11 +25,29 @@
                                     <div class="col-sm-1 col-lg-2 hidden-xs">
                                         <img class="img-responsive" src="data:image/jpeg;base64,{{my_image}}" alt="">
                                     </div>
-                                    <div class="form-group col-xs-12 col-sm-6 col-lg-6">
+                                    <div class="form-group col-xs-11 col-sm-6 col-lg-5">
                                         <textarea class="form-control" id="message" name="message" placeholder="Sua avaliação" required=""></textarea>
                                     </div>
                                     
-                                    <div class="col-md-4 ">
+                                    <div class = "col-md-2">
+
+                                        {% for field in form_turma %}
+                                            <div class="form-group">
+                                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                            {{ field }}
+                                            {% if field.errors %}
+                                                <ul class="errorlist">
+                                                {% for error in field.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                                
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    
+                                    <div class="col-md-3 ">
                                         <div class="box box-orange box-example-1to10">
                                             <div class="box-header">1/10 Avaliação</div>
                                             <div class="box-body">
@@ -65,8 +84,8 @@
                                     <li><i class="fa fa-calendar"></i>{{u.4}}</li>
                                     <li><i class="fa fa-star"></i>{{u.5}}</li>
                                     {% if u.6 == True %}
-                                        <li><a href="{% url 'avaliacao_professor_edit' u.0 %}"><i class="fas fa-edit"></i>Editar</a></li>
-                                        <li><a href="{% url 'avaliacao_professor_delete' u.0 pk%}"><i class="fas fa-trash"></i>Excluir</a></li>
+                                        <li><a href="{% url 'avaliacao_turma_edit' u.0 %}"><i class="fas fa-edit"></i>Editar</a></li>
+                                        <li><a href="{% url 'avaliacao_turma_delete' u.0 %}"><i class="fas fa-trash"></i>Excluir</a></li>
                                     {% endif %}
                                     <li><a href="{% url 'denunciar' u.0 %}"><i class="fa-solid fa-triangle-exclamation"></i>Denunciar</a></li>
                                 </ul>
@@ -105,6 +124,25 @@
             });
         }
         ratingEnable();
+    });
+
+    $(document).ready(function() {
+        $('#id_periodo').change(function() {
+            var valor_campo_a = $(this).val();
+            obterOpcoes(valor_campo_a);
+        });
+
+        function obterOpcoes(valor_campo_a) {
+        $.ajax({
+            url: "{% url 'filtro_turma' pk pk1 %}",
+            data: {
+                id_periodo: valor_campo_a
+            },
+            success: function(response) {
+                $('#id_turma').html(response);
+            }
+        });
+        }
     });
 </script>
 {% endblock %}

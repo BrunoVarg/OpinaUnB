@@ -13,7 +13,7 @@ def get_id_avaliacao(conn: Connection, id):
     return conn.query(f"SELECT * FROM Avaliacoes WHERE is_turma=false AND id={id}")
 
 def create_avaliacao_professor(conn: Connection, comentario, matricula, professor, nota):
-    val = conn.query(f"SELECT COUNT(id) FROM Avaliacoes")
+    val = get_last_value('Avaliacoes')
     conn.update(f"INSERT INTO Avaliacoes (id, comentario, is_turma, fk_matricula, fk_professor, nota, data) VALUES({val+1}, '{comentario}', {False}, {matricula}, '{professor}', {nota}, '{date.today()}')")
     return "Avaliação Cadastrada."
 
