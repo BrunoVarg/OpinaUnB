@@ -35,9 +35,9 @@ def get_num_turma(conn:Connection, disciplina, professor, periodo):
 def get_id_turma(conn:Connection, disciplina, professor, periodo, turma):
     return conn.get_one(f"SELECT id FROM Turmas WHERE fk_professor={professor} AND fk_cod_disciplina='{disciplina}' AND periodo='{periodo}' AND turma='{turma}';")
 
-def create_avaliacao_turmas(conn: Connection, comentario, turma, matricula, nota):
+def create_avaliacao_turmas(conn: Connection, comentario, turma, matricula, nota, periodo, turma1):
     val = get_last_value('Avaliacoes')
-    conn.update(f"INSERT INTO Avaliacoes (id, comentario, is_turma, fk_turma, fk_matricula, nota, data) VALUES({val}, '{comentario}', {True}, '{turma}', {matricula}, {nota}, '{date.today()}')")
+    conn.update(f"INSERT INTO Avaliacoes (id, comentario, is_turma, fk_turma, fk_matricula, nota, data, periodo, turma) VALUES({val}, '{comentario}', {True}, '{turma}', {matricula}, {nota}, '{date.today()}', '{periodo}', '{turma1}')")
     return "Avaliação Cadastrada."
 
 def get_avaliacoes_turmas(conn, pk):
@@ -50,7 +50,5 @@ def delete_avaliacao_turma(conn: Connection, id):
     if get_id_avaliacao(conn, id):
         conn.update(f"DELETE FROM Avaliacoes WHERE id = {id}")
 
-
 def get_nota_turma(conn, professor, disciplina):
-    all_turmas = []
-    return conn.query(f"SELECT AVG(nota) FROM Notas_professor WHERE fk_professor={id}")
+    return conn.query(f"SELECT AVG(nota) FROM Notas_turmas WHERE fk_cod_disciplina='{disciplina}' AND fk_professor={professor}")

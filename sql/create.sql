@@ -52,6 +52,8 @@ CREATE TABLE Avaliacoes(
     fk_professor int,
     nota int,
     data date,
+    periodo varchar(200),
+    turma varchar(200),
     FOREIGN KEY (fk_matricula) REFERENCES Estudantes (matricula) ON DELETE CASCADE,
     FOREIGN KEY (fk_turma) REFERENCES Turmas (id) ON DELETE CASCADE,
     FOREIGN KEY (fk_professor) REFERENCES Professores (id) ON DELETE CASCADE
@@ -67,8 +69,11 @@ CREATE TABLE Denuncias(
 CREATE VIEW Notas_professor AS 
     SELECT fk_professor, nota FROM Avaliacoes WHERE is_turma=false;
 
-CREATE VIEW Notas_turmas AS 
-    SELECT fk_turma, nota FROM Avaliacoes WHERE is_turma=true;
+CREATE VIEW Notas_turmas AS
+SELECT a.nota, a.fk_turma, b.fk_cod_disciplina, b.fk_professor
+FROM avaliacoes a
+JOIN turmas b ON a.fk_turma = b.id
+WHERE a.is_turma=true;
 
 CREATE PROCEDURE AcaoDenuncia(
     option int,

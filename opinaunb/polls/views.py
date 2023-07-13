@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from .forms import LoginForm, RegisterForm, FilterAvaliacao, FilterTurma
 from .cruds.denuncias import get_all_denuncias, get_denuncia_avaliacao, create_denuncia, call_denuncia
 from .cruds.usuario import check_login, get_matricula, get_image, edit_user, delete_user, User, check_admin
-from .cruds.avaliacao_turmas import get_all_turmas, get_professor_by_disciplina, get_name_by_cod_disciplina, get_all_turmas_prof_disc, get_all_avaliacoes, get_num_turma, get_id_turma, create_avaliacao_turmas, get_avaliacoes_turmas, update_avaliacao_turma, delete_avaliacao_turma
+from .cruds.avaliacao_turmas import get_all_turmas, get_professor_by_disciplina, get_name_by_cod_disciplina, get_all_turmas_prof_disc, get_all_avaliacoes, get_num_turma, get_id_turma, create_avaliacao_turmas, get_avaliacoes_turmas, update_avaliacao_turma, delete_avaliacao_turma, get_nota_turma
 from .cruds.avaliacao_professor import get_all_avaliacoes_professores, create_avaliacao_professor, get_avaliacoes_professores, update_avaliacao, delete_avaliacao, get_nota
 from .cruds.filter import get_disciplinas_departamento, get_all_disciplinas, get_all_professores, get_name_by_cod_dep, get_prof_filtered, get_prof_by_codigo, get_one_prof_by_codigo, get_turmas_filtered
 from .connection import Connection
@@ -254,7 +254,7 @@ def turma(request):
     else:
         form = FilterAvaliacao(request.POST)
         turmas = get_turmas_filtered(request.POST["departamento"], request.POST["disciplina"], request.POST["professor"])
-        turmas = [(x[9], get_name_by_cod_dep(x[9])[0], x[8], get_name_by_cod_disciplina(con, x[8])[0], x[7], get_prof_by_codigo(x[7])[0][1], 0) for x in turmas]
+        turmas = [(x[9], get_name_by_cod_dep(x[9])[0], x[8], get_name_by_cod_disciplina(con, x[8])[0], x[7], get_prof_by_codigo(x[7])[0][1], get_nota_turma(con, request.POST["professor"], request.POST["disciplina"])) for x in turmas]
         turmas = list(set(turmas))
         paginator = Paginator(turmas, 15)
         resultados = paginator.get_page(page)
@@ -307,8 +307,8 @@ def turma_read(request, pk, pk1):
         av = get_all_avaliacoes(con, x)
         lista += av
     avaliacoes = lista
-    # id, imagem, nome_usuario, comentario, data, nota
-    lista = [(x[0], get_image(con, x[3]), get_matricula(con, x[3])[2], x[1], x[7], x[6], (int(x[3]) == int(my_id))) for x in avaliacoes]
+    # id, imagem, nome_usuario, comentario, data, nota, periodo, turma
+    lista = [(x[0], get_image(con, x[3]), get_matricula(con, x[3])[2], x[1], x[7], x[6], (int(x[3]) == int(my_id)), x[8], x[9]) for x in avaliacoes]
 
     if request.method == "POST":
         # Cria um novo comentario
@@ -316,7 +316,7 @@ def turma_read(request, pk, pk1):
         # acha a turma tal que periodo
 
         turma = get_id_turma(con, pk, pk1, request.POST["periodo"], request.POST["turma"])[0]
-        create_avaliacao_turmas(con, comentario, turma, matricula, nota)
+        create_avaliacao_turmas(con, comentario, turma, matricula, nota, request.POST["periodo"], request.POST["turma"])
         messages.success(request, "Avaliação de turma criada com sucesso.")
         return redirect(reverse('turma_read', args=[pk, pk1]))
 
@@ -324,7 +324,7 @@ def turma_read(request, pk, pk1):
     context["nome_prof"] = prof[1]
     context["dep"] = get_name_by_cod_dep(prof[2])[0]
     context["disc"] = get_name_by_cod_disciplina(con, pk)[0]
-    context["nota"] = 0
+    context["nota"] = get_nota_turma(con, pk1, pk)
     context["users"] = lista
     context["my_image"] = get_image(con, my_id)
     context["pk"] = pk
