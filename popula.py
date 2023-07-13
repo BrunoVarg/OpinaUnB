@@ -3,7 +3,7 @@ import os
 import pandas as pd
 import time
 import math
-from .opinaunb.polls.cruds.usuario import create_user
+from opinaunb.polls.cruds.usuario import create_user
 import psycopg2
 from dotenv import load_dotenv
 import os

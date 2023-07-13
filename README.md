@@ -31,6 +31,12 @@ psql -U nome_usuario -d nome_banco_de_dados
 
 ## Rodando a Aplicação
 
+- Populando o banco
+
+```bash
+python3 main.py
+```
+
 ```bash
 cd opinaunb
 ```

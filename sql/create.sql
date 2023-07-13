@@ -89,11 +89,9 @@ BEGIN
         DELETE FROM Denuncias WHERE id = id_denuncia;
     ELSIF (option = 2) THEN
         -- Aceita a Denuncia
-        DELETE FROM Denuncias WHERE id = id_denuncia;
         DELETE FROM Avaliacoes WHERE id = id_avaliacao;
     ELSIF (option = 3) THEN
         -- Deleta usuario
-        DELETE FROM Denuncias WHERE id = id_denuncia;
         DELETE FROM Avaliacoes WHERE id = id_avaliacao;
         DELETE FROM Estudantes WHERE matricula = matricula_in;
     END IF;
