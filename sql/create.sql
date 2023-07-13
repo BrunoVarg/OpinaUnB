@@ -17,14 +17,14 @@ CREATE TABLE Professores(
     id int PRIMARY KEY,
     nome varchar(200),
     fk_cod_dep int,
-    FOREIGN KEY (fk_cod_dep) REFERENCES Departamentos(codigo)
+    FOREIGN KEY (fk_cod_dep) REFERENCES Departamentos(codigo) ON DELETE CASCADE
 );
 
 CREATE TABLE Disciplinas(
     codigo varchar(15) PRIMARY KEY,
     nome varchar(200),
     fk_cod_dep int,
-    FOREIGN KEY (fk_cod_dep) REFERENCES Departamentos(codigo)
+    FOREIGN KEY (fk_cod_dep) REFERENCES Departamentos(codigo) ON DELETE CASCADE
 );
 
 CREATE TABLE Turmas(
@@ -38,9 +38,9 @@ CREATE TABLE Turmas(
     fk_professor int,
     fk_cod_disciplina varchar(15),
     fk_cod_dep int,
-    FOREIGN KEY (fk_cod_disciplina) REFERENCES Disciplinas (codigo),
-    FOREIGN KEY (fk_cod_dep) REFERENCES Departamentos (codigo),
-    FOREIGN KEY (fk_professor) REFERENCES Professores (id)
+    FOREIGN KEY (fk_cod_disciplina) REFERENCES Disciplinas (codigo) ON DELETE CASCADE,
+    FOREIGN KEY (fk_cod_dep) REFERENCES Departamentos (codigo) ON DELETE CASCADE,
+    FOREIGN KEY (fk_professor) REFERENCES Professores (id) ON DELETE CASCADE
 );
 
 CREATE TABLE Avaliacoes(
@@ -50,13 +50,18 @@ CREATE TABLE Avaliacoes(
     fk_matricula int,
     fk_turma int,
     fk_professor int,
-    nota int
+    nota int,
+    data date,
+    FOREIGN KEY (fk_matricula) REFERENCES Estudantes (matricula) ON DELETE CASCADE,
+    FOREIGN KEY (fk_turma) REFERENCES Turmas (id) ON DELETE CASCADE,
+    FOREIGN KEY (fk_professor) REFERENCES Professores (id) ON DELETE CASCADE
 );
 
 CREATE TABLE Denuncias(
     id int PRIMARY KEY,
     fk_id_avaliacao int,
-    comentario varchar(500)
+    comentario varchar(500),
+    FOREIGN KEY (fk_id_avaliacao) REFERENCES Avaliacoes (id) ON DELETE CASCADE
 );
 
 CREATE VIEW Notas_professor AS 
@@ -110,10 +115,4 @@ BEGIN
 END;
 $$;
 
-GRANT ALL ON TABLE estudantes TO usuario;
-GRANT ALL ON TABLE departamentos TO usuario;
-GRANT ALL ON TABLE professores TO usuario;
-GRANT ALL ON TABLE disciplinas TO usuario;
-GRANT ALL ON TABLE turmas TO usuario;
-GRANT ALL ON TABLE avaliacoes TO usuario;
-GRANT ALL ON TABLE denuncias TO usuario;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO PUBLIC;

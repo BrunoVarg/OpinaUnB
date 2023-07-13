@@ -48,7 +48,7 @@
                 <td>{{ professor.2 }}</td>
                 <td>{{ professor.3|floatformat:2 }}</td>
                 <td>
-                    <a href="{% url 'professor_read' professor.0 %}" onclick="executarAcao(event)"><button type="button" class="btn btn-info">Ver Mais</button></a>
+                    <a href="{% url 'professor_read' professor.0 %}"><button type="button" class="btn btn-info">Ver Mais</button></a>
                 </td>
               </tr>
               {% endfor %}
@@ -109,15 +109,5 @@
       });
     }
   });
-  function executarAcao(event) {
-      // Lógica da ação que deseja executar antes do redirecionamento
-      
-      event.preventDefault(); // Impede o comportamento padrão do clique no link
-      
-      // Redireciona para a página anterior após um pequeno atraso (500ms)
-      setTimeout(function() {
-          window.location.href = event.currentTarget.getAttribute('href');
-      }, 500);
-  }
   </script>
 {% endblock %}

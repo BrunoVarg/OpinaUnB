@@ -11,17 +11,22 @@ from opinaunb.polls.cruds.denuncias import create_denuncia
 
 con = Connection()
 create_user(con, 123456, True, "Bruno Vargas", "brunovargas@email", "CIC", "senha")
-create_user(con, 11111, False, "usuario", "usuario@email", "CIC", "1234")
-create_user(con, 00000, False, "usuario2", "usuario2@email", "CIC", "1234")
+create_user(con, 11111, False, "usuario", "usuario@email", "CIC", "senha")
+create_user(con, 22222, False, "usuario2", "usuario2@email", "MAT", "senha")
+create_user(con, 33333, False, "usuario3", "usuario3@email", "EST", "senha")
 
 # Cria comentario para Turma e Professor
 call_procedure_avaliacoes(con, "Gostei!", 123456, 32877, 1, 7)
 call_procedure_avaliacoes(con, "Adorei, muito bom!!!", 11111, 32877, 1, 9)
-call_procedure_avaliacoes(con, "Simplesmente Sensacional! Nota 10!", 00000, 32877, 1, 10)
+call_procedure_avaliacoes(con, "Simplesmente Sensacional! Nota 10!", 22222, 32877, 1, 10)
+
+call_procedure_avaliacoes(con, "@#&$%*&!", 123456, 32877, 1, 7)
+call_procedure_avaliacoes(con, "$%$##%@!@#!@#%*$&@#&!!!", 11111, 32877, 1, 9)
+call_procedure_avaliacoes(con, "!&$@*(@#!@!)", 22222, 32877, 1, 10)
 
 # Denuncia as 3 primeiras avaliacoes
-create_denuncia(con, 1)
-create_denuncia(con, 2)
-create_denuncia(con, 3)
+create_denuncia(con, 4)
+create_denuncia(con, 5)
+create_denuncia(con, 6)
 
 
