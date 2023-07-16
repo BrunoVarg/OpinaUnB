@@ -20,6 +20,8 @@ pip install -r requirements.txt
 
 - Depois de instalado o [PostgreSQL](https://www.postgresql.org/download/):
 
+- Crie uma [Database](https://www.postgresql.org/docs/current/manage-ag-createdb.html)
+
 - Substitua nome_usuario e nome_banco_de_dados pelo que será usado.
 
 ```bash
